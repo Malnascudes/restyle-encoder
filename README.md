@@ -1,3 +1,32 @@
+# Easy install and use for W.A.R.E.
+
+Create and activate virtual environment by running 
+```
+conda env create --file=environment/restyle_env.yaml
+conda activate restyle_env
+```
+
+Download pre-trained model from ``
+
+https://drive.google.com/file/d/1sw6I2lRIB0MpuJkpc8F5BJiSZrc0hjfE/view # psp encoder
+
+https://drive.google.com/file/d/1e2oXVeBPXMQoUoC_4TNwAWpOPpSEhE_e/view 3 e4e encoder
+
+To compute the average of the images in `$input-folder` and store them in `$output-folder` using the model file `$model-file` (a `.pt` file) run the following command:
+```
+python scripts/inference_iterative.py \
+    --exp_dir="$input-folder" \
+    --checkpoint_path="$model-file" \
+    --data_path="$output-folder" \
+    --test_batch_size=4 \
+    --test_workers=4 \
+    --n_iters_per_batch=2
+```
+Change `test_batch_size` parameter to modify the GPU memory usage and avoid `RuntimeError: CUDA out of memory` error or increase computing speed.
+
+Test time for 128 images: 2 min 40 sec
+
+
 # ReStyle: A Residual-Based StyleGAN Encoder via Iterative Refinement (ICCV 2021)
 
 > Recently, the power of unconditional image synthesis has significantly advanced through the use of Generative Adversarial Networks (GANs). The task of inverting an image into its corresponding latent code of the trained GAN is of utmost importance as it allows for the manipulation of real images, leveraging the rich semantics learned by the network. Recognizing the limitations of current inversion approaches, in this work we present a novel inversion scheme that extends current encoder-based inversion methods by introducing an iterative refinement mechanism. Instead of directly predicting the latent code of a given image using a single pass, the encoder is tasked with predicting a residual with respect to the current estimate of the inverted latent code in a self-correcting manner. Our residual-based encoder, named ReStyle, attains improved accuracy compared to current state-of-the-art encoder-based methods with a negligible increase in inference time. We analyze the behavior of ReStyle to gain valuable insights into its iterative nature. We then evaluate the performance of our residual encoder and analyze its robustness compared to optimization-based inversion and state-of-the-art encoders.
