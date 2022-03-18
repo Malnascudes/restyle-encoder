@@ -102,6 +102,18 @@ def run():
     # save all latents as npy file
     np.save(os.path.join(test_opts.exp_dir, 'latents.npy'), all_latents)
 
+    # generate and save final image
+    number_of_images = len(all_latents)
+    scaled_average_latent = [image_latents[-1]/number_of_images for _, image_latents in all_latents.items()]
+    final_average_latent = np.sum(scaled_average_latent, axis=0)
+    final_average_latent = torch.tensor(final_average_latent, device='cuda:0', dtype=torch.float32)
+    average_image_tensor = net(final_average_latent.unsqueeze(0),
+                    input_code=True,
+                    randomize_noise=False,
+                    return_latents=False,
+                    average_code=True)[0]
+    average_image = tensor2im(average_image_tensor)
+    average_image.resize(resize_amount).save(os.path.join(test_opts.exp_dir, 'average.png'))
 
 if __name__ == '__main__':
     run()
