@@ -66,6 +66,7 @@ def run():
     global_i = 0
     global_time = []
     all_latents = {}
+    init_time = time.time()
     for input_batch in tqdm(dataloader):
         if global_i >= opts.n_images:
             break
@@ -95,6 +96,7 @@ def run():
     stats_path = os.path.join(opts.exp_dir, 'stats.txt')
     result_str = 'Runtime {:.4f}+-{:.4f}'.format(np.mean(global_time), np.std(global_time))
     print(result_str)
+    print(f'Total execution time: {time.time()-init_time:.03f}')
 
     with open(stats_path, 'w') as f:
         f.write(result_str)
