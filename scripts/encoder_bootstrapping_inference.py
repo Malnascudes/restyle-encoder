@@ -9,7 +9,6 @@ from PIL import Image
 from torch.utils.data import DataLoader
 import sys
 
-from utils.inference_utils import get_average_image
 
 sys.path.append(".")
 sys.path.append("..")
@@ -19,6 +18,7 @@ from datasets.inference_dataset import InferenceDataset
 from options.test_options import TestOptions
 from models.psp import pSp
 from models.e4e import e4e
+from utils.inference_utils import get_average_image
 from utils.model_utils import ENCODER_TYPES
 from utils.common import tensor2im
 
